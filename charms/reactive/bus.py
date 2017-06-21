@@ -276,6 +276,10 @@ class Handler(object):
         """
         Invoke this handler.
         """
+        config = hookenv.config()
+        if config.get('dry-run', False):
+            hookenv.log('Dry-run enabled, skipping handler')
+            return
         args = self._get_args()
         self._action(*args)
         for callback in self._post_callbacks:
